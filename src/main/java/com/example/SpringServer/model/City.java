@@ -6,7 +6,6 @@ import org.bson.BsonType;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.codecs.pojo.annotations.BsonRepresentation;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
@@ -33,10 +32,10 @@ public class City {
         this.name = name;
         this.region = region;
     }
-    
+
     @Override
     public String toString() {
-      return "City [name=" + name + ", region=" + region + "]";
+        return "City [name=" + name + ", region=" + region + "]";
     }
-    
+
 }
