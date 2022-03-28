@@ -5,19 +5,24 @@
  */
 package com.example.SpringServer.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.util.Date;
 
+@Getter
+@Setter
+@Document(collection = "flights_data")
+public class FlightsData {
 
-public class FlightsData implements Serializable {
-    
-    private static final long SerialVersionUID = 1L;
+    @BsonProperty("_id")
     @BsonId
-    private ObjectId objectId;
-    private int id;
+    private ObjectId id;
     private GuestCard guestCard;
     private Date bookingDate;
     private int free;
@@ -32,18 +37,6 @@ public class FlightsData implements Serializable {
     }
 
     public FlightsData(ObjectId id, GuestCard guestCard, Date bookingDate, int free, int sumTicket, PossibleFlights possibleFlights, Date outDate, City cityIn, City cityOut) {
-        this.objectId = id;
-        this.guestCard = guestCard;
-        this.bookingDate = bookingDate;
-        this.free = free;
-        this.sumTicket = sumTicket;
-        this.possibleFlights = possibleFlights;
-        this.outDate = outDate;
-        this.cityIn = cityIn;
-        this.cityOut = cityOut;
-    }
-
-    public FlightsData(int id, GuestCard guestCard, Date bookingDate, int free, int sumTicket, PossibleFlights possibleFlights, Date outDate, City cityIn, City cityOut) {
         this.id = id;
         this.guestCard = guestCard;
         this.bookingDate = bookingDate;
@@ -55,91 +48,14 @@ public class FlightsData implements Serializable {
         this.cityOut = cityOut;
     }
 
-    public ObjectId getObjectId() {
-        return objectId;
-    }
-
-    public void setObjectId(ObjectId objectId) {
-        this.objectId = objectId;
-    }
-
-    public GuestCard getUserId() {
-        return guestCard;
-    }
-
-    public void setUserId(GuestCard userId) {
-        this.guestCard = userId;
-    }
-
-    public GuestCard getGuestCard() {
-        return guestCard;
-    }
-
-    public void setGuestCard(GuestCard guestCard) {
+    public FlightsData(GuestCard guestCard, Date bookingDate, int free, int sumTicket, PossibleFlights possibleFlights, Date outDate, City cityIn, City cityOut) {
         this.guestCard = guestCard;
-    }
-
-    public Date getBookingDate() {
-        return bookingDate;
-    }
-
-    public void setBookingDate(Date bookingDate) {
         this.bookingDate = bookingDate;
-    }
-
-    public PossibleFlights getPossibleFlights() {
-        return possibleFlights;
-    }
-
-    public void setPossibleFlights(PossibleFlights possibleFlights) {
-        this.possibleFlights = possibleFlights;
-    }
-
-    public Date getOutDate() {
-        return outDate;
-    }
-
-    public void setOutDate(Date outDate) {
-        this.outDate = outDate;
-    }
-
-    public int getFree() {
-        return free;
-    }
-
-    public void setFree(int free) {
         this.free = free;
-    }
-
-    public int getSumTicket() {
-        return sumTicket;
-    }
-
-    public void setSumTicket(int sumTicket) {
         this.sumTicket = sumTicket;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public City getCityIn() {
-        return cityIn;
-    }
-
-    public void setCityIn(City cityIn) {
+        this.possibleFlights = possibleFlights;
+        this.outDate = outDate;
         this.cityIn = cityIn;
-    }
-
-    public City getCityOut() {
-        return cityOut;
-    }
-
-    public void setCityOut(City cityOut) {
         this.cityOut = cityOut;
     }
 }

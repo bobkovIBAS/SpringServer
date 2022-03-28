@@ -7,18 +7,16 @@ package com.example.SpringServer.repositories;
 
 import com.example.SpringServer.model.FlightsData;
 import com.example.SpringServer.model.GuestCard;
+import com.example.SpringServer.model.PossibleFlights;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 
 
-public interface FlightsDataRepository {
-    List<FlightsData> getAllFlights();
-    FlightsData getAllFlightsByUser(GuestCard guestCard);
-    FlightsData getAllByInCity();
-    void save(FlightsData flightData);
-    void deleteFlight(ObjectId id);
-    List<FlightsData> getСache();
-    void addCache(FlightsData flightData);
+public interface FlightsDataRepository extends MongoRepository<FlightsData, String> {
+    List<FlightsData> findAll();
+    FlightsData insert(FlightsData flightData);
+    FlightsData deleteById(ObjectId id);
 
 }
