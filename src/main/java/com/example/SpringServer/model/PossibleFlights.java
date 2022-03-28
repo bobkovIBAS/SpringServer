@@ -7,8 +7,10 @@ package com.example.SpringServer.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.bson.BsonType;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.codecs.pojo.annotations.BsonRepresentation;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,7 +22,8 @@ import java.io.Serializable;
 public class PossibleFlights {
     @BsonProperty("_id")
     @BsonId
-    private ObjectId id;
+    @BsonRepresentation(BsonType.OBJECT_ID)
+    private String id;
     private City fromId;
     private City toId;
     private String planeTypes;
@@ -32,7 +35,7 @@ public class PossibleFlights {
     
     }
 
-    public PossibleFlights(ObjectId objectId, City fromId, City toId, String planeTypes, int freePlaces, String dateFlights, int sumTicket) {
+    public PossibleFlights(String objectId, City fromId, City toId, String planeTypes, int freePlaces, String dateFlights, int sumTicket) {
         this.id = objectId;
         this.fromId = fromId;
         this.toId = toId;
