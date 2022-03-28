@@ -8,11 +8,8 @@ import com.example.SpringServer.repositories.CityRepository;
 import com.example.SpringServer.repositories.FlightsDataRepository;
 import com.example.SpringServer.repositories.GuestCardRepository;
 import com.example.SpringServer.repositories.PossibleFlightsRepository;
-import com.example.SpringServer.repositories.imp.CityRepositoryImp;
-import com.example.SpringServer.repositories.imp.FlightsDataRepositoryImp;
-import com.example.SpringServer.repositories.imp.GuestCardRepositoryImp;
-import com.example.SpringServer.repositories.imp.PossibleFlightsRepositoryImp;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -24,28 +21,37 @@ import java.util.List;
 @RestController
 @RequestMapping("controller")
 public class Controller {
-    GuestCardRepository guestRepository = new GuestCardRepositoryImp();
-    FlightsDataRepository flightRepository = new FlightsDataRepositoryImp();
-    PossibleFlightsRepository possibleFlightsRepository = new PossibleFlightsRepositoryImp();
-    CityRepository cityRepository = new CityRepositoryImp();
+    private GuestCardRepository guestRepository;
+    private PossibleFlightsRepository possibleFlightsRepository;
+    private CityRepository cityRepository;
+    private FlightsDataRepository flightRepository;
 
-
+    @Autowired
+    public Controller(GuestCardRepository guestRepository,
+                      PossibleFlightsRepository possibleFlightsRepository,
+                      CityRepository cityRepository,
+                      FlightsDataRepository flightRepository) {
+        this.guestRepository = guestRepository;
+        this.possibleFlightsRepository = possibleFlightsRepository;
+        this.cityRepository = cityRepository;
+        this.flightRepository = flightRepository;
+    }
     public Controller(){
     }
 
     @GetMapping("getAllFlights")
     public List<FlightsData> getAllFlights(){
-        return flightRepository.getAllFlights();
+        return flightRepository.findAll();
     }
 
     @GetMapping("getAvaliableFlightsByDate")
     public List<PossibleFlights> getAvaliableFlightsByDate(Date date){
-        return possibleFlightsRepository.getFlightsEqualBydate(date);
+        return possibleFlightsRepository.findAll();
     }
 
     @GetMapping("deleteBookedFlight")
     public void deleteBookedFlight(ObjectId id){
-        flightRepository.deleteFlight(id);
+        flightRepository.deleteById(id);
     }
 
 
@@ -54,7 +60,7 @@ public class Controller {
     }
 
     @PostMapping("/createRegist/{id}/{name}/{surname}/{passport}")
-    public void createRegist(@PathVariable("id") int id,@PathVariable("name") String name,
+    public void createRegist(@PathVariable("id") ObjectId id,@PathVariable("name") String name,
                              @PathVariable("surname") String surname,@PathVariable("passport") String passport)
     {
         GuestCard gc = new GuestCard();
@@ -65,13 +71,13 @@ public class Controller {
         createFlightData(gc,id);
     }
 
-    public void createFlightData(GuestCard guestCard,Integer id){
+    public void createFlightData(GuestCard guestCard,ObjectId id){
         List<PossibleFlights> possibleFligths = getAllPossibleFlights();
         FlightsData flightData = new FlightsData();
         possibleFligths.forEach(item->{
-            if(item.getId() == id){
+            if(item.getId().equals(id)){
                 flightData.setPossibleFlights(item);
-                flightData.setUserId(guestCard);
+                flightData.setGuestCard(guestCard);
             }    
         });
         saveFlightsData(flightData);
@@ -79,8 +85,7 @@ public class Controller {
 
 
     public void saveFlightsData(FlightsData flightData){
-        flightRepository.addCache(flightData);
-        flightRepository.save(flightData);
+        flightRepository.insert(flightData);
 
     }
 
@@ -91,7 +96,7 @@ public class Controller {
 
     @GetMapping("getAllPossibleFlights")
     public List<PossibleFlights> getAllPossibleFlights(){
-        return possibleFlightsRepository.getAllPossibleFlights();
+        return possibleFlightsRepository.findAll();
     }
 
     @GetMapping("getAllCity")
@@ -114,7 +119,7 @@ public class Controller {
 
     @GetMapping("getNumberOfTicketsBooked")
     public int getNumberOfTicketsBooked(){
-        List<FlightsData> flightsDataList = flightRepository.getAllFlights();
+        List<FlightsData> flightsDataList = flightRepository.findAll();
         int counter = 0;
         for(FlightsData findpossible:flightsDataList){
             counter = +1;

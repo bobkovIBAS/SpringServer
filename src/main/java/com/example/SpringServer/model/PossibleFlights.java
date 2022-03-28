@@ -5,16 +5,22 @@
  */
 package com.example.SpringServer.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 
-public class PossibleFlights implements Serializable {
-    private static final long SerialVersionUID = 1L;
+@Getter
+@Setter
+@Document(collection = "possible_flights")
+public class PossibleFlights {
+    @BsonProperty("_id")
     @BsonId
-    private ObjectId objectId;
-    private int id;
+    private ObjectId id;
     private City fromId;
     private City toId;
     private String planeTypes;
@@ -27,7 +33,7 @@ public class PossibleFlights implements Serializable {
     }
 
     public PossibleFlights(ObjectId objectId, City fromId, City toId, String planeTypes, int freePlaces, String dateFlights, int sumTicket) {
-        this.objectId = objectId;
+        this.id = objectId;
         this.fromId = fromId;
         this.toId = toId;
         this.planeTypes = planeTypes;
@@ -36,8 +42,7 @@ public class PossibleFlights implements Serializable {
         this.sumTicket = sumTicket;
     }
     
-    public PossibleFlights(int id ,City fromId, City toId, String planeTypes, int freePlaces, String dateFlights, int sumTicket) {
-        this.id = id;
+    public PossibleFlights(City fromId, City toId, String planeTypes, int freePlaces, String dateFlights, int sumTicket) {
         this.fromId = fromId;
         this.toId = toId;
         this.planeTypes = planeTypes;
@@ -46,72 +51,4 @@ public class PossibleFlights implements Serializable {
         this.sumTicket = sumTicket;
     }
 
-    public ObjectId getObjectId() {
-        return objectId;
-    }
-
-    public void setObjectId(ObjectId objectId) {
-        this.objectId = objectId;
-    }
-
-    public City getFromId() {
-        return fromId;
-    }
-
-    public void setFromId(City fromId) {
-        this.fromId = fromId;
-    }
-
-    public City getToId() {
-        return toId;
-    }
-
-    public void setToId(City toId) {
-        this.toId = toId;
-    }
-
-    public String getPlaneTypes() {
-        return planeTypes;
-    }
-
-    public void setPlaneTypes(String planeTypes) {
-        this.planeTypes = planeTypes;
-    }
-
-    public int getFreePlaces() {
-        return freePlaces;
-    }
-
-    public void setFreePlaces(int freePlaces) {
-        this.freePlaces = freePlaces;
-    }
-
-    public String getDateFlights() {
-        return dateFlights;
-    }
-
-    public void setDateFlights(String dateFlights) {
-        this.dateFlights = dateFlights;
-    }
-
-    public int getSumTicket() {
-        return sumTicket;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setSumTicket(int sumTicket) {
-        this.sumTicket = sumTicket;
-    }
-    @Override
-    public String toString() {
-      return "possible_flights [id=" + objectId + ", cityFrom=" + fromId + ", cityTo=" + toId + ", name=" + planeTypes + ", freePlace=" + freePlaces + ""
-              + ", date=" + dateFlights + ", sumTickets=" + sumTicket + "]";
-    }
 }

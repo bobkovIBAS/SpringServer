@@ -6,16 +6,20 @@
 package com.example.SpringServer.repositories;
 
 import com.example.SpringServer.model.PossibleFlights;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 
 import java.util.Date;
 import java.util.List;
 
 
-public interface PossibleFlightsRepository {
+public interface PossibleFlightsRepository extends MongoRepository<PossibleFlights, String> {
+   List<PossibleFlights> findAll();
+   PossibleFlights insert(PossibleFlights possibleFlights);
+
+   @Query("{dateFlights: { $regex: ?0 } }")
+   List<PossibleFlights> getFlightsEqualBydate(String date);
+
+   @Query("{planeTypes: { $regex: ?0 } }")
    List<PossibleFlights> getTypeAirplane(String type);
-   List<PossibleFlights> getDepartureTime(String data);
-   List<PossibleFlights> getAllPossibleFlights();
-   void save(PossibleFlights possibleFlights);
-   List<PossibleFlights> getAllFlights();
-   List<PossibleFlights> getFlightsEqualBydate(Date date);
 }

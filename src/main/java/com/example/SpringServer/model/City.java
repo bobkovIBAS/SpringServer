@@ -1,11 +1,18 @@
 package com.example.SpringServer.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.io.Serializable;
-
-public class City implements Serializable{
-    private static final long SerialVersionUID = 1L;
+@Getter
+@Setter
+@Document(collection = "city")
+public class City {
+    @BsonProperty("_id")
+    @BsonId
     private ObjectId objectId;
     private int id;
     private String name;
@@ -22,29 +29,6 @@ public class City implements Serializable{
 
     public City(String name, int region) {
         this.name = name;
-        this.region = region;
-    }
-    public ObjectId getObjectId() {
-        return objectId;
-    }
-
-    public void setObjectId(ObjectId objectId) {
-        this.objectId = objectId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getRegion() {
-        return region;
-    }
-
-    public void setRegion(int region) {
         this.region = region;
     }
     
