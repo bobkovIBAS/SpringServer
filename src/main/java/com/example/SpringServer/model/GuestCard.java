@@ -7,8 +7,10 @@ package com.example.SpringServer.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.bson.BsonType;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.codecs.pojo.annotations.BsonRepresentation;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,12 +22,13 @@ import java.io.Serializable;
 public class GuestCard {
     @BsonProperty("_id")
     @BsonId
-    private ObjectId id;
+    @BsonRepresentation(BsonType.OBJECT_ID)
+    private String id;
     private String name;
     private String surname;
     private String passport;
 
-    public GuestCard(ObjectId id,String name,String surname,String pass){
+    public GuestCard(String id,String name,String surname,String pass){
         this.id = id;
         this.name = name;
         this.surname = surname;

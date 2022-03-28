@@ -60,7 +60,7 @@ public class Controller {
     }
 
     @PostMapping("/createRegist/{id}/{name}/{surname}/{passport}")
-    public void createRegist(@PathVariable("id") ObjectId id,@PathVariable("name") String name,
+    public void createRegist(@PathVariable("id") String id,@PathVariable("name") String name,
                              @PathVariable("surname") String surname,@PathVariable("passport") String passport)
     {
         GuestCard gc = new GuestCard();
@@ -71,7 +71,7 @@ public class Controller {
         createFlightData(gc,id);
     }
 
-    public void createFlightData(GuestCard guestCard,ObjectId id){
+    public void createFlightData(GuestCard guestCard,String id){
         List<PossibleFlights> possibleFligths = getAllPossibleFlights();
         FlightsData flightData = new FlightsData();
         possibleFligths.forEach(item->{
