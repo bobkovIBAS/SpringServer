@@ -11,10 +11,7 @@ import org.bson.BsonType;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.codecs.pojo.annotations.BsonRepresentation;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.io.Serializable;
 
 @Getter
 @Setter
@@ -30,9 +27,9 @@ public class PossibleFlights {
     private int freePlaces;
     private String dateFlights;
     private int sumTicket;
-    
-    public PossibleFlights(){
-    
+
+    public PossibleFlights() {
+
     }
 
     public PossibleFlights(String objectId, City fromId, City toId, String planeTypes, int freePlaces, String dateFlights, int sumTicket) {
@@ -44,7 +41,7 @@ public class PossibleFlights {
         this.dateFlights = dateFlights;
         this.sumTicket = sumTicket;
     }
-    
+
     public PossibleFlights(City fromId, City toId, String planeTypes, int freePlaces, String dateFlights, int sumTicket) {
         this.fromId = fromId;
         this.toId = toId;

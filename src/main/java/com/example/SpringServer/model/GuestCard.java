@@ -11,10 +11,7 @@ import org.bson.BsonType;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.codecs.pojo.annotations.BsonRepresentation;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.io.Serializable;
 
 @Getter
 @Setter
@@ -28,11 +25,11 @@ public class GuestCard {
     private String surname;
     private String passport;
 
-    public GuestCard(String id,String name,String surname,String pass){
+    public GuestCard(String id, String name, String surname, String pass) {
         this.id = id;
         this.name = name;
         this.surname = surname;
-        this.passport= pass;
+        this.passport = pass;
     }
 
     public GuestCard(String name, String surname, String passport) {
@@ -40,10 +37,10 @@ public class GuestCard {
         this.surname = surname;
         this.passport = passport;
     }
-    
+
     public GuestCard() {
-        
+
     }
 
-    
+
 }

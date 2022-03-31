@@ -11,10 +11,8 @@ import org.bson.BsonType;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.codecs.pojo.annotations.BsonRepresentation;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.io.Serializable;
 import java.util.Date;
 
 @Getter
@@ -28,37 +26,24 @@ public class FlightsData {
     private String id;
     private GuestCard guestCard;
     private Date bookingDate;
-    private int free;
-    private int sumTicket;
     private PossibleFlights possibleFlights;
-    private Date outDate;
-    private City cityIn;
-    private City cityOut;
 
-    public FlightsData(){
-        
+
+    public FlightsData() {
+
     }
 
-    public FlightsData(String id, GuestCard guestCard, Date bookingDate, int free, int sumTicket, PossibleFlights possibleFlights, Date outDate, City cityIn, City cityOut) {
+    public FlightsData(String id, GuestCard guestCard, Date bookingDate, PossibleFlights possibleFlights) {
         this.id = id;
         this.guestCard = guestCard;
         this.bookingDate = bookingDate;
-        this.free = free;
-        this.sumTicket = sumTicket;
         this.possibleFlights = possibleFlights;
-        this.outDate = outDate;
-        this.cityIn = cityIn;
-        this.cityOut = cityOut;
+
     }
 
-    public FlightsData(GuestCard guestCard, Date bookingDate, int free, int sumTicket, PossibleFlights possibleFlights, Date outDate, City cityIn, City cityOut) {
+    public FlightsData(GuestCard guestCard, Date bookingDate, PossibleFlights possibleFlights) {
         this.guestCard = guestCard;
         this.bookingDate = bookingDate;
-        this.free = free;
-        this.sumTicket = sumTicket;
         this.possibleFlights = possibleFlights;
-        this.outDate = outDate;
-        this.cityIn = cityIn;
-        this.cityOut = cityOut;
     }
 }
