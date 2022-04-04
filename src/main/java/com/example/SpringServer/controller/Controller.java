@@ -8,6 +8,8 @@ import com.example.SpringServer.repositories.CityRepository;
 import com.example.SpringServer.repositories.FlightsDataRepository;
 import com.example.SpringServer.repositories.GuestCardRepository;
 import com.example.SpringServer.repositories.PossibleFlightsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,14 +17,21 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-
+@RestController
 public class Controller {
+
+    protected Controller controller;
+
     private GuestCardRepository guestRepository;
     private PossibleFlightsRepository possibleFlightsRepository;
     private CityRepository cityRepository;
     private FlightsDataRepository flightRepository;
 
 
+    public Controller() {
+    }
+
+    @Autowired
     public Controller(GuestCardRepository guestRepository,
                       PossibleFlightsRepository possibleFlightsRepository,
                       CityRepository cityRepository,
@@ -33,16 +42,13 @@ public class Controller {
         this.flightRepository = flightRepository;
     }
 
-    public Controller() {
-    }
-
 
     public List<FlightsData> getAllFlights() {
         return flightRepository.findAll();
     }
 
 
-    public List<PossibleFlights> getAvaliableFlightsByDate(Date date) {
+    public List<PossibleFlights> getAvaliableFlightsByDate(String date) {
         return possibleFlightsRepository.findAll();
     }
 
