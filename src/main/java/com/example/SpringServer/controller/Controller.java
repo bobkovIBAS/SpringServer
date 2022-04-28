@@ -9,6 +9,7 @@ import com.example.SpringServer.repositories.FlightsDataRepository;
 import com.example.SpringServer.repositories.GuestCardRepository;
 import com.example.SpringServer.repositories.PossibleFlightsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
@@ -17,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-@RestController
+@Service
 public class Controller {
 
     protected Controller controller;
@@ -49,7 +50,7 @@ public class Controller {
 
 
     public List<PossibleFlights> getAvaliableFlightsByDate(String date) {
-        return possibleFlightsRepository.findAll();
+        return possibleFlightsRepository.getFlightsEqualBydate(date);
     }
 
 

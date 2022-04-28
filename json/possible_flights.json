@@ -1,0 +1,32 @@
+[
+	{
+		"id": "623c40c50cafc8000881b75f",
+		"fromId": {
+			"name": "Москва",
+			"region": 77
+		},
+		"toId": {
+			"name": "Карелия",
+			"region": 10
+		},
+		"planeTypes": "Ту-135",
+		"freePlaces": 43,
+		"dateFlights": "2022-01-02",
+		"sumTicket": 2500
+	},
+	{
+		"id": "623c40d10cafc8000881b760",
+		"fromId": {
+			"name": "Самара",
+			"region": 63
+		},
+		"toId": {
+			"name": "Москва",
+			"region": 77
+		},
+		"planeTypes": "Ту-134",
+		"freePlaces": 134,
+		"dateFlights": "2022-01-01",
+		"sumTicket": 1000
+	}
+]
