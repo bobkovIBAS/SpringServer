@@ -1,4 +1,4 @@
-package com.example.SpringServer.controller;
+package com.example.SpringServer.controllers;
 
 import com.example.SpringServer.model.FlightsData;
 import com.example.SpringServer.model.PossibleFlights;
@@ -6,10 +6,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
