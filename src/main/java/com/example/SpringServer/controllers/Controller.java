@@ -1,4 +1,4 @@
-package com.example.SpringServer.controller;
+package com.example.SpringServer.controllers;
 
 import com.example.SpringServer.model.City;
 import com.example.SpringServer.model.FlightsData;
@@ -49,9 +49,8 @@ public class Controller {
 
 
     public List<PossibleFlights> getAvaliableFlightsByDate(String date) {
-        return possibleFlightsRepository.findAll();
+        return possibleFlightsRepository.getFlightsEqualBydate(date);
     }
-
 
     public void deleteBookedFlight(String id) {
         flightRepository.deleteById(id);
