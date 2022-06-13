@@ -26,14 +26,14 @@ public class FlightsData {
     private String id;
     private GuestCard guestCard;
     private Date bookingDate;
-    private PossibleFlights possibleFlights;
+    private PossibleFlight possibleFlights;
 
 
     public FlightsData() {
 
     }
 
-    public FlightsData(String id, GuestCard guestCard, Date bookingDate, PossibleFlights possibleFlights) {
+    public FlightsData(String id, GuestCard guestCard, Date bookingDate, PossibleFlight possibleFlights) {
         this.id = id;
         this.guestCard = guestCard;
         this.bookingDate = bookingDate;
@@ -41,7 +41,7 @@ public class FlightsData {
 
     }
 
-    public FlightsData(GuestCard guestCard, Date bookingDate, PossibleFlights possibleFlights) {
+    public FlightsData(GuestCard guestCard, Date bookingDate, PossibleFlight possibleFlights) {
         this.guestCard = guestCard;
         this.bookingDate = bookingDate;
         this.possibleFlights = possibleFlights;

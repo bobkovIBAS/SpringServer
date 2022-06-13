@@ -13,10 +13,12 @@ import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.codecs.pojo.annotations.BsonRepresentation;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Document(collection = "possible_flights")
-public class PossibleFlights {
+public class PossibleFlight {
     @BsonProperty("_id")
     @BsonId
     @BsonRepresentation(BsonType.OBJECT_ID)
@@ -24,31 +26,24 @@ public class PossibleFlights {
     private City fromId;
     private City toId;
     private String planeTypes;
-    private int freePlaces;
-    private String dateFlights;
-    private int sumTicket;
+    private List<PossibleFlightDate> flightDate;
 
-    public PossibleFlights() {
+    public PossibleFlight() {
 
     }
 
-    public PossibleFlights(String objectId, City fromId, City toId, String planeTypes, int freePlaces, String dateFlights, int sumTicket) {
-        this.id = objectId;
+    public PossibleFlight(String id, City fromId, City toId, String planeTypes, List<PossibleFlightDate> flightDate) {
+        this.id = id;
         this.fromId = fromId;
         this.toId = toId;
         this.planeTypes = planeTypes;
-        this.freePlaces = freePlaces;
-        this.dateFlights = dateFlights;
-        this.sumTicket = sumTicket;
+        this.flightDate = flightDate;
     }
 
-    public PossibleFlights(City fromId, City toId, String planeTypes, int freePlaces, String dateFlights, int sumTicket) {
+    public PossibleFlight(City fromId, City toId, String planeTypes, List<PossibleFlightDate> flightDate) {
         this.fromId = fromId;
         this.toId = toId;
         this.planeTypes = planeTypes;
-        this.freePlaces = freePlaces;
-        this.dateFlights = dateFlights;
-        this.sumTicket = sumTicket;
+        this.flightDate = flightDate;
     }
-
 }
