@@ -28,7 +28,7 @@ public class AdminController {
     }
 
     @PutMapping(value  = "/editflight", consumes = {"application/json"})
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> editPossibleFlight(@RequestBody PossibleFlight possibleFlight) {
         try {
             serviceAdmin.editPossibleFlight(possibleFlight);
@@ -39,7 +39,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/deleteflight/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<HttpStatus> deletePossibleFlight(@PathVariable ("id") String id) {
         try {
             serviceAdmin.deletePossibleFlight(id);
@@ -50,18 +50,23 @@ public class AdminController {
     }
 
     @PostMapping(value  = "/newcity", consumes = {"application/json"})
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> createNewCity(@RequestBody City city) {
         try {
-            serviceAdmin.createCity(city);
-            return new ResponseEntity<>(HttpStatus.OK);
+            boolean checkCreate = serviceAdmin.createCity(city);
+            if(checkCreate){
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else{
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping(value  = "/editcity", consumes = {"application/json"})
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> editCity(@RequestBody City city) {
         try {
             serviceAdmin.editCity(city);
@@ -72,7 +77,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/deletecity/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<HttpStatus> deleteCity(@PathVariable ("id") String id) {
         try {
             serviceAdmin.deleteCity(id);

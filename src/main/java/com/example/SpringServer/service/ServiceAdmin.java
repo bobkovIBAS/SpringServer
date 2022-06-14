@@ -6,7 +6,7 @@ import com.example.SpringServer.model.PossibleFlight;
 
 public interface ServiceAdmin {
 
-    void createCity(City city);
+    Boolean createCity(City city);
     void editCity(City city);
     void deleteCity(String id);
     void editPossibleFlight(PossibleFlight possibleFlight);

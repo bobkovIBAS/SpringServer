@@ -30,8 +30,15 @@ public class ServiceAdminImp implements ServiceAdmin {
         possibleFlightsRepository.insert(possibleFlight);
     }
     @Override
-    public void createCity(City city){
-        cityRepository.insert(city);
+    public Boolean createCity(City city){
+        City checkCreate = cityRepository.findByRegion(city.getRegion());
+        if(checkCreate==null){
+            return false;
+        } else {
+            cityRepository.insert(city);
+            return true;
+        }
+
     }
     @Override
     public void editCity(City city){

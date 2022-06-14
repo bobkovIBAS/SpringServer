@@ -37,6 +37,8 @@ public class User {
     private String password;
     @DBRef
     private Set<Role> roles = new HashSet<>();
+    @DBRef
+    private GuestCard guestCard;
 
     public User() {
     }
