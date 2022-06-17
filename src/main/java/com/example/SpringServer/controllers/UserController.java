@@ -1,12 +1,11 @@
 package com.example.SpringServer.controllers;
 
+import com.example.SpringServer.DAO.PossibleFlightDAO;
+import com.example.SpringServer.DAO.SearchPossibleFlightDAO;
 import com.example.SpringServer.model.City;
 import com.example.SpringServer.model.FlightsData;
 import com.example.SpringServer.model.GuestCard;
-import com.example.SpringServer.model.PossibleFlight;
 import com.example.SpringServer.service.ServiceUser;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,11 +23,9 @@ public class UserController {
         this.serviceUser = serviceUser;
     }
 
-    ObjectMapper objectMapper = new ObjectMapper();
-
     @GetMapping("/getAllPossibleFlights")
-    private ResponseEntity<List<PossibleFlight>>getAllPossibleFlights() {
-        List<PossibleFlight> possibleFlights =  serviceUser.getAllPossibleFlights();
+    private ResponseEntity<List<PossibleFlightDAO>>getAllPossibleFlights() {
+        List<PossibleFlightDAO> possibleFlights =  serviceUser.getAllPossibleFlightsDateNow();
         if(!possibleFlights.isEmpty()){
             return new ResponseEntity<>(possibleFlights, HttpStatus.OK);
         } else {
@@ -57,8 +54,18 @@ public class UserController {
     }
 
     @GetMapping("/getAvailableFlightsByDate/{date}")
-    private ResponseEntity<List<PossibleFlight>> getAvailableFlightsByDate(@PathVariable("date") String date){
-        List<PossibleFlight> possibleFlights =  serviceUser.getAvaliableFlightsByDate(date);
+    private ResponseEntity<List<PossibleFlightDAO>> getAvailableFlightsByDate(@PathVariable("date") String date){
+        List<PossibleFlightDAO> possibleFlights =  serviceUser.getAvaliableFlightsByDate(date);
+        if(!possibleFlights.isEmpty()){
+            return new ResponseEntity<>(possibleFlights, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(value  ="/searchflight", consumes = {"application/json"})
+    private ResponseEntity<List<PossibleFlightDAO>> getAvailableFlightsByFilter(@RequestBody SearchPossibleFlightDAO search){
+        List<PossibleFlightDAO> possibleFlights =  serviceUser.getAvaliableFlightsByFilter(search);
         if(!possibleFlights.isEmpty()){
             return new ResponseEntity<>(possibleFlights, HttpStatus.OK);
         } else {

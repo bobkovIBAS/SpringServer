@@ -1,5 +1,7 @@
 package com.example.SpringServer.service.serviceImp;
 
+import com.example.SpringServer.DAO.PossibleFlightDAO;
+import com.example.SpringServer.DAO.SearchPossibleFlightDAO;
 import com.example.SpringServer.model.*;
 import com.example.SpringServer.repositories.CityRepository;
 import com.example.SpringServer.repositories.FlightsDataRepository;
@@ -36,9 +38,49 @@ public class ServiceUserImp implements ServiceUser {
         return flightRepository.findAll();
     }
 
+    public List<PossibleFlightDAO> getAvaliableFlightsByFilter(SearchPossibleFlightDAO filter){
+        List<PossibleFlight> listPossibleFlight = possibleFlightsRepository.findAll();
+        List<PossibleFlightDAO> filterPossibleFlight = new ArrayList<>();
+        String dateFilter = getDateString(filter.getDateFlight());
+        for (PossibleFlight possibleFlight:listPossibleFlight){
+            possibleFlight.getFlightDate().stream().forEach(i->{
+                String dateBase = getDateString(i.getDateFlight());
+                if(dateFilter.equals(dateBase)){
+                    filterPossibleFlight.add(new PossibleFlightDAO(
+                            possibleFlight.getId(),
+                            possibleFlight.getFromId(),
+                            possibleFlight.getToId(),
+                            possibleFlight.getPlaneTypes(),
+                            i.getDateFlight(),
+                            i.getFreePlaces(),
+                            i.getSumTicket()));
+                }
+            });
+        }
+        return filterPossibleFlight;
 
-    public List<PossibleFlight> getAvaliableFlightsByDate(String date) {
-        return possibleFlightsRepository.getFlightsEqualBydate(date);
+    }
+
+    public List<PossibleFlightDAO> getAvaliableFlightsByDate(String date) {
+        List<PossibleFlight> listPossibleFlight = possibleFlightsRepository.findAll();
+        List<PossibleFlightDAO> filterPossibleFlight = new ArrayList<>();
+        for (PossibleFlight possibleFlight:listPossibleFlight){
+            possibleFlight.getFlightDate().stream().forEach(i->{
+                String dateBase = getDateString(i.getDateFlight());
+                if(date.equals(dateBase)){
+                    filterPossibleFlight.add(new PossibleFlightDAO(
+                            possibleFlight.getId(),
+                            possibleFlight.getFromId(),
+                            possibleFlight.getToId(),
+                            possibleFlight.getPlaneTypes(),
+                            i.getDateFlight(),
+                            i.getFreePlaces(),
+                            i.getSumTicket()));
+                }
+            });
+        }
+        return filterPossibleFlight;
+
     }
     public void deleteBookedFlight(String id) {
         flightRepository.deleteById(id);
@@ -64,7 +106,7 @@ public class ServiceUserImp implements ServiceUser {
 
 
     public void createFlightData(GuestCard guestCard, String id) {
-        List<PossibleFlight> possibleFligths = getAllPossibleFlights();
+        List<PossibleFlight> possibleFligths = possibleFlightsRepository.findAll();
         FlightsData flightData = new FlightsData();
         possibleFligths.forEach(item -> {
             if (item.getId().equals(id)) {
@@ -88,13 +130,24 @@ public class ServiceUserImp implements ServiceUser {
     }
 
 
-    public List<PossibleFlight> getAllPossibleFlights() {
+    public List<PossibleFlightDAO> getAllPossibleFlightsDateNow() {
         List<PossibleFlight> listPossibleFlight = possibleFlightsRepository.findAll();
-        List<PossibleFlight> filterPossibleFlight = new ArrayList<>();
+        List<PossibleFlightDAO> filterPossibleFlight = new ArrayList<>();
         String dateNow = getDateString(new Date());
         for (PossibleFlight possibleFlight:listPossibleFlight){
-            boolean possibleFlightDates =  possibleFlight.getFlightDate()
-                    .stream().anyMatch(i->getDateString(i.getDateFlight()).equals(dateNow));
+            possibleFlight.getFlightDate().stream().forEach(i->{
+                String dateBase = getDateString(i.getDateFlight());
+                if(dateNow.equals(dateBase)){
+                    filterPossibleFlight.add(new PossibleFlightDAO(
+                            possibleFlight.getId(),
+                            possibleFlight.getFromId(),
+                            possibleFlight.getToId(),
+                            possibleFlight.getPlaneTypes(),
+                            i.getDateFlight(),
+                            i.getFreePlaces(),
+                            i.getSumTicket()));
+                }
+            });
         }
         return filterPossibleFlight;
     }
@@ -115,6 +168,7 @@ public class ServiceUserImp implements ServiceUser {
 
         return str;
     }
+
     public Date getMaskDate(String str) {
         SimpleDateFormat formater = new SimpleDateFormat("dd-MM-yyyy");
         Date date = new Date();

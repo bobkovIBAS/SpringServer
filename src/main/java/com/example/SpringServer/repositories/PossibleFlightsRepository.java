@@ -17,10 +17,6 @@ public interface PossibleFlightsRepository extends MongoRepository<PossibleFligh
 
     PossibleFlight insert(PossibleFlight possibleFlights);
 
-    @Query("{dateFlights: { $regex: ?0 } }")
-    List<PossibleFlight> getFlightsEqualBydate(String date);
-
-
     @Query("{planeTypes: { $regex: ?0 } }")
     List<PossibleFlight> getTypeAirplane(String type);
 }
