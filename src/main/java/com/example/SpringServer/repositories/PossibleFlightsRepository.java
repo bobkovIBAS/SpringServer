@@ -16,7 +16,9 @@ public interface PossibleFlightsRepository extends MongoRepository<PossibleFligh
     List<PossibleFlight> findAll();
 
     PossibleFlight insert(PossibleFlight possibleFlights);
-
     @Query("{planeTypes: { $regex: ?0 } }")
     List<PossibleFlight> getTypeAirplane(String type);
+
+
+
 }

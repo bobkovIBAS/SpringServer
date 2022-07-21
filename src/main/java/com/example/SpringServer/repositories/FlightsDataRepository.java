@@ -2,6 +2,7 @@
 package com.example.SpringServer.repositories;
 
 import com.example.SpringServer.model.FlightsData;
+import com.example.SpringServer.model.GuestCard;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -13,6 +14,7 @@ public interface FlightsDataRepository extends MongoRepository<FlightsData, Stri
 
     FlightsData insert(FlightsData flightData);
 
+    List<FlightsData> findByGuestCard(GuestCard guestCard);
     FlightsData deleteById(ObjectId id);
 
 }

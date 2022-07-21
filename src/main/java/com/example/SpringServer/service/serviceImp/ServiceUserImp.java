@@ -3,10 +3,7 @@ package com.example.SpringServer.service.serviceImp;
 import com.example.SpringServer.DAO.PossibleFlightDAO;
 import com.example.SpringServer.DAO.SearchPossibleFlightDAO;
 import com.example.SpringServer.model.*;
-import com.example.SpringServer.repositories.CityRepository;
-import com.example.SpringServer.repositories.FlightsDataRepository;
-import com.example.SpringServer.repositories.GuestCardRepository;
-import com.example.SpringServer.repositories.PossibleFlightsRepository;
+import com.example.SpringServer.repositories.*;
 import com.example.SpringServer.service.ServiceUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,17 +22,19 @@ public class ServiceUserImp implements ServiceUser {
     private PossibleFlightsRepository possibleFlightsRepository;
     private CityRepository cityRepository;
     private FlightsDataRepository flightRepository;
-
+    private UserRepository userRepository;
     @Autowired
-    public ServiceUserImp(GuestCardRepository guestRepository, PossibleFlightsRepository possibleFlightsRepository, CityRepository cityRepository, FlightsDataRepository flightRepository) {
+    public ServiceUserImp(GuestCardRepository guestRepository, PossibleFlightsRepository possibleFlightsRepository, CityRepository cityRepository, FlightsDataRepository flightRepository, UserRepository userRepository) {
         this.guestRepository = guestRepository;
         this.possibleFlightsRepository = possibleFlightsRepository;
         this.cityRepository = cityRepository;
         this.flightRepository = flightRepository;
+        this.userRepository = userRepository;
     }
-
-    public List<FlightsData> getAllFlights() {
-        return flightRepository.findAll();
+    @Override
+    public List<FlightsData> getAllFlights(String id) {
+        User user = userRepository.findById(id).get();
+        return flightRepository.findByGuestCard(user.getGuestCard().get(0));
     }
 
     public List<PossibleFlightDAO> getAvaliableFlightsByFilter(SearchPossibleFlightDAO filter){
@@ -82,6 +81,20 @@ public class ServiceUserImp implements ServiceUser {
         return filterPossibleFlight;
 
     }
+
+    @Override
+    public GuestCard userGuestCard(String id_user, String id_guestCard) {
+        User findUser = userRepository.findById(id_user).get();
+        GuestCard findGuestCard = findUser.getGuestCard().stream().filter(i->i.getId().equals(id_guestCard)).findFirst().get();
+        return findGuestCard;
+    }
+    @Override
+    public List<GuestCard> userGuestCardAll(String id_user) {
+        User findUser = userRepository.findById(id_user).get();
+        List<GuestCard> findGuestCardAll = findUser.getGuestCard();
+        return findGuestCardAll;
+    }
+
     public void deleteBookedFlight(String id) {
         flightRepository.deleteById(id);
     }
@@ -99,21 +112,29 @@ public class ServiceUserImp implements ServiceUser {
         createFlightData(gc, id);
     }
 
-    public void createRegist(GuestCard guestCard, String id) {
-        saveGuestCard(guestCard);
-        createFlightData(guestCard, id);
+    public void createRegist(GuestCard guestCard, String id, String id_user) {
+        GuestCard guestCardCreate = new GuestCard(guestCard.getSurname(),guestCard.getName(),guestCard.getPassport());
+        User findUser = userRepository.findById(id_user).get();
+        List<GuestCard> findUserGuestCard = findUser.getGuestCard();
+        saveGuestCard(guestCardCreate);
+        findUserGuestCard.add(guestCardCreate);
+        findUser.setGuestCard(findUserGuestCard);
+        userRepository.save(findUser);
+        createFlightData(guestCardCreate, id);
     }
 
+    @Override
+    public void createRegistWithGuestCard(String id, String id_user, GuestCard guestCard) {
+        User findUser = userRepository.findById(id_user).get();
+        GuestCard findUserGuestCard = findUser.getGuestCard().stream().filter(i->i.getId().equals(guestCard.getId())).findFirst().get();
+        createFlightData(findUserGuestCard, id);
+    }
 
     public void createFlightData(GuestCard guestCard, String id) {
-        List<PossibleFlight> possibleFligths = possibleFlightsRepository.findAll();
+        PossibleFlight possibleFligths = possibleFlightsRepository.findById(id).get();
         FlightsData flightData = new FlightsData();
-        possibleFligths.forEach(item -> {
-            if (item.getId().equals(id)) {
-                flightData.setPossibleFlights(item);
-                flightData.setGuestCard(guestCard);
-            }
-        });
+        flightData.setPossibleFlights(possibleFligths);
+        flightData.setGuestCard(guestCard);
         saveFlightsData(flightData);
     }
 
@@ -124,20 +145,17 @@ public class ServiceUserImp implements ServiceUser {
         possibleFlightsRepository.insert(possibleFlight);
     }
 
-
     public List<GuestCard> getAllGuestCard() {
         return guestRepository.findAll();
     }
 
-
     public List<PossibleFlightDAO> getAllPossibleFlightsDateNow() {
         List<PossibleFlight> listPossibleFlight = possibleFlightsRepository.findAll();
         List<PossibleFlightDAO> filterPossibleFlight = new ArrayList<>();
-        String dateNow = getDateString(new Date());
+        //String dateNow = getDateString(new Date());
         for (PossibleFlight possibleFlight:listPossibleFlight){
             possibleFlight.getFlightDate().stream().forEach(i->{
-                String dateBase = getDateString(i.getDateFlight());
-                if(dateNow.equals(dateBase)){
+                if(i.getDateFlight().getTime()>= new Date().getTime()){
                     filterPossibleFlight.add(new PossibleFlightDAO(
                             possibleFlight.getId(),
                             possibleFlight.getFromId(),
@@ -151,7 +169,6 @@ public class ServiceUserImp implements ServiceUser {
         }
         return filterPossibleFlight;
     }
-
 
     public List<City> getAllCity() {
         return cityRepository.findAll();
