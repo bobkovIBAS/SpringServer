@@ -6,10 +6,8 @@ import org.bson.BsonType;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.codecs.pojo.annotations.BsonRepresentation;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -37,8 +35,8 @@ public class User {
     private String password;
     @DBRef
     private Set<Role> roles = new HashSet<>();
-    @DBRef
-    private GuestCard guestCard;
+/*    @DBRef
+    private GuestCard guestCard;*/
 
     public User() {
     }

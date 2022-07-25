@@ -35,6 +35,7 @@ public class UserController {
 
     @GetMapping("/getAllFlights")
     private ResponseEntity<List<FlightsData>> getAllFlights() {
+
         List<FlightsData> flightsData =  serviceUser.getAllFlights();
         if(!flightsData.isEmpty()){
             return new ResponseEntity<>(flightsData, HttpStatus.OK);
@@ -43,7 +44,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/getallcity")
+    @GetMapping("/getAllCity")
     private ResponseEntity<List<City>> getAllCity() {
         List<City> listCity =  serviceUser.getAllCity();
         if(!listCity.isEmpty()){
@@ -63,7 +64,7 @@ public class UserController {
         }
     }
 
-    @PostMapping(value  ="/searchflight", consumes = {"application/json"})
+    @PostMapping(value = "/searchflight", consumes = {"application/json"})
     private ResponseEntity<List<PossibleFlightDAO>> getAvailableFlightsByFilter(@RequestBody SearchPossibleFlightDAO search){
         List<PossibleFlightDAO> possibleFlights =  serviceUser.getAvaliableFlightsByFilter(search);
         if(!possibleFlights.isEmpty()){
@@ -73,7 +74,7 @@ public class UserController {
         }
     }
 
-    @PostMapping(value  = "/registration/{id}", consumes = {"application/json"})
+    @PostMapping(value = "/registration/{id}", consumes = {"application/json"})
     public ResponseEntity<?> createRegistration(@PathVariable ("id") String id,@RequestBody GuestCard user) {
         try {
             serviceUser.createRegist(user,id);

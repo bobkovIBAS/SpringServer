@@ -15,10 +15,12 @@ public class SearchPossibleFlightDAO {
     private City fromCity;
     private Date dateFlight;
 
+
     public SearchPossibleFlightDAO(City toCity, City fromCity, Date dateFlight) {
         this.toCity = toCity;
         this.fromCity = fromCity;
         this.dateFlight = dateFlight;
+
     }
 
     public SearchPossibleFlightDAO(Date dateFlight) {
