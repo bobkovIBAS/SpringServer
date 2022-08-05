@@ -1,7 +1,9 @@
 package com.example.SpringServer.controllers;
 
+import com.example.SpringServer.DAO.response.CreateFlightDataDAO;
 import com.example.SpringServer.DAO.PossibleFlightDAO;
 import com.example.SpringServer.DAO.SearchPossibleFlightDAO;
+import com.example.SpringServer.DAO.response.FlightDataDAO;
 import com.example.SpringServer.model.City;
 import com.example.SpringServer.model.FlightsData;
 import com.example.SpringServer.model.GuestCard;
@@ -43,6 +45,18 @@ public class UserController {
         }
     }
 
+    @PutMapping("/getflight/{id_user}")
+    private ResponseEntity<List<FlightDataDAO>> getAllFlightsGuestCard(
+            @PathVariable("id_user") String id_user,
+            @RequestBody GuestCard user) {
+        List<FlightDataDAO> flightsData =  serviceUser.getAllFlightsGuestCard(id_user,user);
+        if(!flightsData.isEmpty()){
+            return new ResponseEntity<>(flightsData, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping("/getallcity")
     private ResponseEntity<List<City>> getAllCity() {
         List<City> listCity =  serviceUser.getAllCity();
@@ -73,23 +87,27 @@ public class UserController {
         }
     }
 
-    @PostMapping(value  = "/registrationwithguestcard/{id}/{id_user}", consumes = {"application/json"})
-    public ResponseEntity<?> createRegistration(@PathVariable ("id") String id,@RequestBody GuestCard user,@PathVariable ("id_user") String id_user) {
+    @PostMapping(value  = "/registrationwithguestcard/{id}/{id_user}/{date}", consumes = {"application/json"})
+    public ResponseEntity<CreateFlightDataDAO> createRegistration(@PathVariable ("id") String id,
+                                                                  @RequestBody GuestCard user,
+                                                                  @PathVariable ("id_user") String id_user,
+                                                                  @PathVariable ("date") String date) {
         try {
-            serviceUser.createRegist(user,id,id_user);
-            return new ResponseEntity<>(HttpStatus.OK);
+            CreateFlightDataDAO  createFlightDataDAO = serviceUser.createRegist(user,id,id_user,date);
+            return new ResponseEntity<>(createFlightDataDAO,HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PostMapping(value  = "/registration/{id}/{id_user}", consumes = {"application/json"})
-    public ResponseEntity<?> createRegistration(@PathVariable ("id") String id,
+    @PostMapping(value  = "/registration/{id}/{id_user}/{date}", consumes = {"application/json"})
+    public ResponseEntity<CreateFlightDataDAO> createRegistration(@PathVariable ("id") String id,
                                                 @PathVariable ("id_user") String id_user
-                                                ,@RequestBody GuestCard guestCard) {
+                                                ,@RequestBody GuestCard guestCard,
+                                                @PathVariable ("date") String date) {
         try {
-            serviceUser.createRegistWithGuestCard(id,id_user,guestCard);
-            return new ResponseEntity<>(HttpStatus.OK);
+            CreateFlightDataDAO createFlightDataDAO = serviceUser.createRegistWithGuestCard(id,id_user,guestCard, date);
+            return new ResponseEntity<>(createFlightDataDAO,HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
