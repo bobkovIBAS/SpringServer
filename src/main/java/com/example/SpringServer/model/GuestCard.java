@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
-@Document(collection = "guest_card")
+@Document(collection = "guestcard")
 public class GuestCard {
     @BsonProperty("_id")
     @BsonId
