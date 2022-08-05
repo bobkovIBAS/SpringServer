@@ -13,6 +13,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -35,8 +36,8 @@ public class User {
     private String password;
     @DBRef
     private Set<Role> roles = new HashSet<>();
-/*    @DBRef
-    private GuestCard guestCard;*/
+    @DBRef
+    private List<GuestCard> guestCard;
 
     public User() {
     }
@@ -46,4 +47,5 @@ public class User {
         this.email = email;
         this.password = password;
     }
+
 }

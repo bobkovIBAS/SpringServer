@@ -22,6 +22,7 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
         logger.error("Unauthorized error: {}", authException.getMessage());
+        //response.setHeader("Auth...","");
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
     }
     //HttpServletResponse.SC_UNAUTHORIZED это код состояния 401. Это указывает на то, что запрос требует HTTP-аутентификации.

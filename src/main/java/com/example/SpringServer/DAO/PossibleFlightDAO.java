@@ -13,11 +13,11 @@ public class PossibleFlightDAO {
     private City fromId;
     private City toId;
     private String planeTypes;
-    private Date dateFlight;
+    private String dateFlight;
     private int freePlaces;
     private int sumTicket;
 
-    public PossibleFlightDAO(String id, City fromId, City toId, String planeTypes, Date dateFlight, int freePlaces, int sumTicket) {
+    public PossibleFlightDAO(String id, City fromId, City toId, String planeTypes, String dateFlight, int freePlaces, int sumTicket) {
         this.id = id;
         this.fromId = fromId;
         this.toId = toId;
