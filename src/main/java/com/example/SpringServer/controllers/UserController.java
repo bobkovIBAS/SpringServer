@@ -14,7 +14,7 @@ import java.util.List;
 
 @CrossOrigin("http://localhost:4200")
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/user/redirect")
 public class UserController {
 
     private ServiceUser serviceUser;
@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @GetMapping("/getAllCity")
-    private ResponseEntity<List<City>> getAllCity() {
+    private  ResponseEntity<List<City>> getAllCity() {
         List<City> listCity =  serviceUser.getAllCity();
         if(!listCity.isEmpty()){
             return new ResponseEntity<>(listCity, HttpStatus.OK);
@@ -64,7 +64,7 @@ public class UserController {
         }
     }
 
-    @PostMapping(value = "/searchflight", consumes = {"application/json"})
+    @PostMapping(value = "/searchFlight", consumes = {"application/json"})
     private ResponseEntity<List<PossibleFlightDAO>> getAvailableFlightsByFilter(@RequestBody SearchPossibleFlightDAO search){
         List<PossibleFlightDAO> possibleFlights =  serviceUser.getAvaliableFlightsByFilter(search);
         if(!possibleFlights.isEmpty()){
