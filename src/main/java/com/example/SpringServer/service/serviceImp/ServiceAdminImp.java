@@ -39,7 +39,7 @@ public class ServiceAdminImp implements ServiceAdmin {
     @Override
     public Boolean createCity(City city){
         City checkCreate = cityRepository.findByRegion(city.getRegion());
-        if(checkCreate==null){
+        if(checkCreate!=null){
             return false;
         } else {
             cityRepository.insert(city);

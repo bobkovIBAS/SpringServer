@@ -15,7 +15,7 @@ import java.util.List;
 
 @CrossOrigin("http://localhost:4200")
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/api/admin/redirect")
 public class AdminController {
     @Autowired
     private ServiceAdmin serviceAdmin;

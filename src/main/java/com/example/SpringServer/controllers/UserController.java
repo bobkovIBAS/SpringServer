@@ -137,7 +137,7 @@ public class UserController {
     public ResponseEntity<HttpStatus> deleteBookedFlight(@PathVariable ("id") String id) {
         try {
             serviceUser.deleteBookedFlight(id);
-            return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<HttpStatus>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

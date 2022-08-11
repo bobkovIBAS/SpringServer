@@ -138,9 +138,13 @@ public class ServiceUserImp implements ServiceUser {
     public CreateFlightDataDAO createRegist(GuestCard guestCard, String id, String id_user, String date) {
         GuestCard guestCardCreate = new GuestCard(guestCard.getSurname(),guestCard.getName(),guestCard.getPassport());
         User findUser = userRepository.findById(id_user).get();
-        List<GuestCard> findUserGuestCard = findUser.getGuestCard();
+        List<GuestCard> findUserGuestCard = new ArrayList<>();
         saveGuestCard(guestCardCreate);
-        findUserGuestCard.add(guestCardCreate);
+        GuestCard guestCardFind = guestRepository.findByPassport(guestCardCreate.getPassport());
+        if (!findUser.getGuestCard().isEmpty()) {
+            findUserGuestCard = findUser.getGuestCard();
+        }
+        findUserGuestCard.add(guestCardFind);
         findUser.setGuestCard(findUserGuestCard);
         userRepository.save(findUser);
         CreateFlightDataDAO createFlightDataDAO = createFlightData(guestCardCreate, id, date);
